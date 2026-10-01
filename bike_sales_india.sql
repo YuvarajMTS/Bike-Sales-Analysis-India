@@ -1,5 +1,6 @@
 create database bike_sales_raw;
 use bike_sales_raw;
+--upload the file throught manually--
 
 CREATE TABLE bike_raw (State VARCHAR(50), Avg_Daily_Distance VARCHAR(30), Brand VARCHAR(50), Model VARCHAR(50),
   Price VARCHAR(30), Year_Manufacture VARCHAR(10), Engine_cc VARCHAR(20), Fuel_Type VARCHAR(30),
@@ -19,7 +20,7 @@ SELECT COUNT(*) FROM bike_clean;
 SELECT State, COUNT(*) FROM bike_clean GROUP BY State ORDER BY 2 DESC;  
 SELECT Brand, Model, Price, COUNT(*) FROM bike_clean
 GROUP BY State, Avg_Daily_Distance, Brand, Model, Price, Year_Manufacture, Engine_cc, Fuel_Type, Mileage,
-         Owner_Type, Registration_Year, Insurance_Status, Seller_Type, Resale_Price, City_Tier HAVING COUNT(*) > 1;   -- finds duplicates
+         Owner_Type, Registration_Year, Insurance_Status, Seller_Type, Resale_Price, City_Tier HAVING COUNT(*) > 1;  
 UPDATE bike_clean SET State = TRIM(State), Brand = TRIM(Brand), Model = TRIM(Model), Fuel_Type = TRIM(Fuel_Type), Owner_Type = TRIM(Owner_Type), Insurance_Status = TRIM(Insurance_Status),
   Seller_Type = TRIM(Seller_Type), City_Tier = TRIM(City_Tier);
   UPDATE bike_clean SET State = CASE
