@@ -14,9 +14,9 @@ CREATE TABLE bike_sales_raw.bike_sales_india_raw (State VARCHAR(50), Avg_Daily_D
   Insurance_Status VARCHAR(30), Seller_Type VARCHAR(30), Resale_Price VARCHAR(30), City_Tier VARCHAR(30)
 ) CHARACTER SET utf8mb4;
 SELECT COUNT(*) FROM bike_sales_raw.bike_sales_india_raw;
-CREATE TABLE bike_clean AS SELECT * FROM bike_raw;  -- should be 10300
+CREATE TABLE bike_clean AS SELECT * FROM bike_raw;  
 SELECT COUNT(*) FROM bike_clean;
-SELECT State, COUNT(*) FROM bike_clean GROUP BY State ORDER BY 2 DESC;  -- repeat for each text column
+SELECT State, COUNT(*) FROM bike_clean GROUP BY State ORDER BY 2 DESC;  
 SELECT Brand, Model, Price, COUNT(*) FROM bike_clean
 GROUP BY State, Avg_Daily_Distance, Brand, Model, Price, Year_Manufacture, Engine_cc, Fuel_Type, Mileage,
          Owner_Type, Registration_Year, Insurance_Status, Seller_Type, Resale_Price, City_Tier HAVING COUNT(*) > 1;   -- finds duplicates
@@ -93,19 +93,19 @@ UPDATE bike_clean SET Engine_cc = NULL WHERE Engine_cc NOT BETWEEN 90 AND 1100;
 UPDATE bike_clean SET Avg_Daily_Distance = NULL WHERE Avg_Daily_Distance NOT BETWEEN 1 AND 150;
 UPDATE bike_clean SET Registration_Year = NULL WHERE Registration_Year < Year_Manufacture;
 DELETE FROM bike_clean WHERE Price IS NULL OR Resale_Price IS NULL;
--- fill a numeric column with the average (MySQL needs the subquery in a derived table)
+
 UPDATE bike_clean SET Mileage = (SELECT m FROM (SELECT ROUND(AVG(Mileage),2) AS m FROM bike_clean) t)
 WHERE Mileage IS NULL;
--- remove the rest
+
 DELETE FROM bike_clean WHERE State IS NULL OR Brand IS NULL OR Model IS NULL OR Fuel_Type IS NULL
    OR Owner_Type IS NULL OR Insurance_Status IS NULL OR Seller_Type IS NULL OR City_Tier IS NULL
    OR Year_Manufacture IS NULL OR Registration_Year IS NULL OR Engine_cc IS NULL;
    
    DELETE FROM bike_clean WHERE Price IS NULL OR Resale_Price IS NULL;
--- fill a numeric column with the average (MySQL needs the subquery in a derived table)
+
 UPDATE bike_clean SET Mileage = (SELECT m FROM (SELECT ROUND(AVG(Mileage),2) AS m FROM bike_clean) t)
 WHERE Mileage IS NULL;
--- remove the rest
+
 DELETE FROM bike_clean WHERE State IS NULL OR Brand IS NULL OR Model IS NULL OR Fuel_Type IS NULL
    OR Owner_Type IS NULL OR Insurance_Status IS NULL OR Seller_Type IS NULL OR City_Tier IS NULL
    OR Year_Manufacture IS NULL OR Registration_Year IS NULL OR Engine_cc IS NULL;
@@ -128,21 +128,21 @@ SELECT Fuel_Type, Owner_Type, ROUND(AVG(Resale_Price)) FROM bike_final GROUP BY 
 
 SET SQL_SAFE_UPDATES = 0;
 
--- negative values and the '-' placeholder first, so the minus sign isn't lost
+
 UPDATE bike_clean SET Price = NULL WHERE TRIM(Price) REGEXP '^-';
 UPDATE bike_clean SET Resale_Price = NULL WHERE TRIM(Resale_Price) REGEXP '^-';
 UPDATE bike_clean SET Engine_cc = NULL WHERE TRIM(Engine_cc) REGEXP '^-';
 UPDATE bike_clean SET Mileage = NULL WHERE TRIM(Mileage) REGEXP '^-';
 UPDATE bike_clean SET Avg_Daily_Distance = NULL WHERE TRIM(Avg_Daily_Distance) REGEXP '^-';
 
--- remove 'Rs.' (its dot would survive the next step), then keep only digits and '.'
+
 UPDATE bike_clean SET
   Price = NULLIF(REGEXP_REPLACE(REPLACE(Price,'Rs.',''),'[^0-9.]',''),''),
   Resale_Price = NULLIF(REGEXP_REPLACE(REPLACE(Resale_Price,'Rs.',''),'[^0-9.]',''),''),
   Engine_cc = NULLIF(REGEXP_REPLACE(Engine_cc,'[^0-9.]',''),''),
   Mileage = NULLIF(REGEXP_REPLACE(Mileage,'[^0-9.]',''),''),
   Avg_Daily_Distance = NULLIF(REGEXP_REPLACE(Avg_Daily_Distance,'[^0-9.]',''),'');
-  SELECT Price FROM bike_clean WHERE Price NOT REGEXP '^[0-9]+([.][0-9]+)?$' LIMIT 20;   -- should return nothing
+  SELECT Price FROM bike_clean WHERE Price NOT REGEXP '^[0-9]+([.][0-9]+)?$' LIMIT 20;   
   ALTER TABLE bike_clean
   MODIFY Price DECIMAL(12,2), MODIFY Resale_Price DECIMAL(12,2),
   MODIFY Engine_cc INT, MODIFY Mileage DECIMAL(6,2), MODIFY Avg_Daily_Distance DECIMAL(6,2);
@@ -177,7 +177,7 @@ UPDATE bike_final SET
   Resale_Percentage = Resale_Price / Price * 100,
   Depreciation_Percentage = (Price - Resale_Price) / Price * 100;
   SELECT COUNT(*) FROM bike_final;
-SELECT Brand, COUNT(*) FROM bike_final GROUP BY Brand;   -- your last query returned 14 rows; it should now be 8
+SELECT Brand, COUNT(*) FROM bike_final GROUP BY Brand;  
 SELECT Price, Resale_Price, ROUND(Resale_Price / Price * 100, 1) AS pct
 FROM bike_final
 WHERE Price NOT BETWEEN 40000 AND 500000
