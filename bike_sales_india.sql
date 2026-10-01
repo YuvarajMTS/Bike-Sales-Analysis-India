@@ -1,6 +1,6 @@
 create database bike_sales_raw;
 use bike_sales_raw;
---upload the file throught manually--
+--upload the dataset file throught manually into sql--
 
 CREATE TABLE bike_raw (State VARCHAR(50), Avg_Daily_Distance VARCHAR(30), Brand VARCHAR(50), Model VARCHAR(50),
   Price VARCHAR(30), Year_Manufacture VARCHAR(10), Engine_cc VARCHAR(20), Fuel_Type VARCHAR(30),
