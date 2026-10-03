@@ -61,23 +61,24 @@ The following screenshots show the different analysis pages created using Power 
 ### Brand Analysis
 ![Brand Analysis](Brand%20Analysis.png)
 
+### Vehicle Age Analysis
+![Vehicle Age Analysis](Vehicle%20age%20Analysis.png)
+
 ### Brand & Price Analysis
 ![Brand & Price Analysis](Brand%20%26%20price%20Analysis.png)
-
-### Fuel Type Analysis
-![Fuel Type Analysis](Fuel%20Type%20Analysis.png)
-
-### Model Analysis
-![Model Analysis](Model.png)
-
-### Owner Type Analysis
-![Owner Type Analysis](Owner%20type%20Analysis.png)
 
 ### State Analysis
 ![State Analysis](State%20Analysis.png)
 
-### Vehicle Age Analysis
-![Vehicle Age Analysis](Vehicle%20age%20Analysis.png)
+### Fuel Type Analysis
+![Fuel Type Analysis](Fuel%20Type%20Analysis.png)
+
+### Owner Type Analysis
+![Owner Type Analysis](Owner%20type%20Analysis.png)
+
+### Model Analysis
+![Model Analysis](Model.png)
+
 
 ## 📁 Project Structure
 
